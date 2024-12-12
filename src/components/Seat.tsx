@@ -12,7 +12,7 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>((props, ref) => 
 		<Popover>
 			<PopoverTrigger>
 				<div className={cn('size-8 rounded-full bg-zinc-100 hover:bg-zinc-200 transition-color', props.className)}
-				     ref={ref}>
+					ref={ref}>
 					<span className="text-xs text-zinc-400 font-medium">[n]</span>
 				</div>
 			</PopoverTrigger>
