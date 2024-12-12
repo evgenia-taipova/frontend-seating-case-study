@@ -3,9 +3,16 @@ import Header from "./components/Header";
 import SeatingMap from "./components/SeatingMap";
 import EventInfo from "./components/EventInfo";
 import CartSummary from "./components/CartSummary";
+import { useState } from "react";
 
 function App() {
+  const [eventId, setEventId] = useState<string | null>(null);
   const isLoggedIn = false;
+
+  // Fetch the eventId when EventInfo is rendered
+  const handleEventIdChange = (id: string) => {
+    setEventId(id);
+  };
 
   return (
     <div className="flex flex-col grow">
@@ -17,10 +24,9 @@ function App() {
         {/* inner content */}
         <div className="max-w-screen-lg m-auto p-4 flex items-start grow gap-3 w-full">
           {/* seating card */}
-
-          <SeatingMap />
+          <SeatingMap eventId={eventId} />
           {/* event info */}
-          <EventInfo />
+          <EventInfo onEventIdChange={handleEventIdChange} />
         </div>
       </main>
 

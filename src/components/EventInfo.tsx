@@ -14,7 +14,11 @@ interface EventData {
   place: string;
 }
 
-function EventInfo() {
+interface EventInfoProps {
+  onEventIdChange: (eventId: string) => void;
+}
+
+function EventInfo({ onEventIdChange }: EventInfoProps) {
   // State to store event data
   const [event, setEvent] = useState<EventData | null>(null);
   // State to toggle the description visibility
@@ -39,7 +43,8 @@ function EventInfo() {
           dateTo: data.dateTo,
           headerImageUrl: data.headerImageUrl,
           place: data.place,
-        });
+        }); // Notify parent component with the eventId
+        onEventIdChange(data.eventId);
       } catch (error) {
         console.error("Error fetching event data:", error);
       }
