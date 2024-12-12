@@ -18,24 +18,27 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
 
     const seatStyle =
       ticketType === "VIP ticket"
-        ? "bg-green-100 hover:bg-green-200" // Для VIP - зеленый
-        : "bg-zinc-100 hover:bg-zinc-200";
+        ? "bg-green-400 hover:bg-green-600" // Для VIP - зеленый
+        : ticketType === "Regular ticket"
+        ? "bg-blue-400 hover:bg-blue-600" // Для Regular - голубой
+        : "bg-pink-100";
+
+    const isDisabled =
+      ticketType !== "VIP ticket" && ticketType !== "Regular ticket";
 
     return (
       <Popover>
-        <PopoverTrigger>
+        <PopoverTrigger className={isDisabled ? "pointer-events-none" : ""}>
           <div
             className={cn(
-              "size-8 rounded-full transition-color",
+              "size-8 rounded-md transition-color",
               seatStyle,
               className
             )}
             ref={ref}
             {...props}
           >
-            <span className="text-xs text-zinc-400 font-medium">
-              {seatNumber}
-            </span>
+            <span className="text-xs text-white font-medium">{seatNumber}</span>
           </div>
         </PopoverTrigger>
         <PopoverContent>
