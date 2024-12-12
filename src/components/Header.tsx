@@ -1,5 +1,9 @@
-import { Button } from '@/components/ui/button.tsx';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar.tsx';
+import { Button } from "@/components/ui/button.tsx";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,10 +11,10 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu.tsx';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu.tsx";
 
-function Header({isLoggedIn} : {isLoggedIn:boolean}) {
+function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <nav className="sticky top-0 left-0 right-0 bg-white border-b border-zinc-200 flex justify-center">
       {/* inner content */}

@@ -86,16 +86,10 @@ function SeatingMap({ eventId }: SeatingMapProps) {
                   <Seat
                     key={seat.seatId}
                     seatNumber={seat.place}
+                    seatRow={row.seatRow}
                     className="flex-shrink-0"
                     ticketType={ticketType?.name}
-                  >
-                    <div className="flex flex-col items-center">
-                      <span>{seat.place}</span>
-                      {/* <span className="text-xs text-zinc-400">
-                      ({ticketType ? ticketType.name : "No ticket"})
-                    </span> */}
-                    </div>
-                  </Seat>
+                  />
                 );
               } else {
                 // Пропущенное место

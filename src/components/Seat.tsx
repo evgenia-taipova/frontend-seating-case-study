@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils.ts";
 import React from "react";
 
 interface SeatProps extends React.HTMLAttributes<HTMLElement> {
+  seatRow?: number;
   seatNumber?: number;
   ticketType?: string;
 }
 
 export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
-  ({ seatNumber, ticketType, className, ...props }, ref) => {
+  ({ seatNumber, ticketType, seatRow, className, ...props }, ref) => {
     const isInCart = false;
 
     const seatStyle =
@@ -42,7 +43,16 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <pre>{JSON.stringify({ seatData: null }, null, 2)}</pre>
+          <div className="text-sm font-medium text-gray-700 space-y-1 mb-3">
+            {/* Ticket Type */}
+            <p className="text-lg font-semibold text-gray-900">{ticketType}</p>
+
+            {/* Seat Details */}
+            <p className="text-sm text-gray-600">
+              <span className="font-medium">Row:</span> {seatRow}{" "}
+              <span className="font-medium">Seat:</span> {seatNumber}
+            </p>
+          </div>
 
           <footer className="flex flex-col">
             {isInCart ? (

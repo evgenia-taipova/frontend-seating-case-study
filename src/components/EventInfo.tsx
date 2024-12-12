@@ -69,7 +69,7 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
       minute: "2-digit",
     };
     const date = new Date(dateString);
-    return date.toLocaleDateString("cs-CZ", options);
+    return date.toLocaleDateString("en-EN", options);
   };
 
   // Function to format time without the date for the end time
@@ -79,7 +79,7 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
       minute: "2-digit",
     };
     const date = new Date(dateString);
-    return date.toLocaleTimeString("cs-CZ", options);
+    return date.toLocaleTimeString("en-EN", options);
   };
 
   // Check if both dates (start and end) are the same day (e.g., if they happen on the same day)
