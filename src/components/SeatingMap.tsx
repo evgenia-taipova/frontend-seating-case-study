@@ -26,17 +26,35 @@ interface EventTicketsResponse {
 
 interface SeatingMapProps {
   eventId: string | null;
-  onAddToCart: (seatId: string, price: number) => void;
+  onAddToCart: (
+    seatId: string,
+    price: number,
+    ticketType: string,
+    seatRow: number,
+    seatNumber: number
+  ) => void;
   onRemoveFromCart: (seatId: string, price: number) => void;
-  cart: { seats: string[]; total: number };
+  cart: {
+    seats: {
+      seatId: string;
+      ticketType: string;
+      seatRow: number;
+      seatNumber: number;
+      seatPrice: number;
+    }[];
+    total: number;
+  };
 }
 
-function SeatingMap({ eventId, onAddToCart, onRemoveFromCart, cart }: SeatingMapProps) {
+function SeatingMap({
+  eventId,
+  onAddToCart,
+  onRemoveFromCart,
+  cart,
+}: SeatingMapProps) {
   const [seatingData, setSeatingData] = useState<EventTicketsResponse | null>(
     null
   );
-
-  
 
   useEffect(() => {
     if (!eventId) return;
@@ -86,8 +104,10 @@ function SeatingMap({ eventId, onAddToCart, onRemoveFromCart, cart }: SeatingMap
                 : null;
 
               if (seat) {
-                const isInCart = cart.seats.includes(seat.seatId);
-            
+                const isInCart = cart.seats.some(
+                  (ticket) => ticket.seatId === seat.seatId
+                );
+
                 return (
                   <Seat
                     key={seat.seatId}
@@ -96,8 +116,18 @@ function SeatingMap({ eventId, onAddToCart, onRemoveFromCart, cart }: SeatingMap
                     className="flex-shrink-0"
                     ticketType={ticketType?.name}
                     isInCart={isInCart}
-                    onAddToCart={() => onAddToCart(seat.seatId, ticketType?.price || 0)}
-                    onRemoveFromCart={() => onRemoveFromCart(seat.seatId, ticketType?.price || 0)}
+                    onAddToCart={() =>
+                      onAddToCart(
+                        seat.seatId,
+                        ticketType?.price || 0,
+                        ticketType?.name || "",
+                        row.seatRow,
+                        seat.place
+                      )
+                    }
+                    onRemoveFromCart={() =>
+                      onRemoveFromCart(seat.seatId, ticketType?.price || 0)
+                    }
                   />
                 );
               } else {

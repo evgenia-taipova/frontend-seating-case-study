@@ -8,7 +8,16 @@ import { useState } from "react";
 function App() {
   const [eventId, setEventId] = useState<string | null>(null);
 
-  const [cart, setCart] = useState<{ seats: string[]; total: number }>({
+  const [cart, setCart] = useState<{
+    seats: {
+      seatId: string;
+      ticketType: string;
+      seatRow: number;
+      seatNumber: number;
+      seatPrice: number;
+    }[];
+    total: number;
+  }>({
     seats: [],
     total: 0,
   });
@@ -20,16 +29,25 @@ function App() {
     setEventId(id);
   };
 
-  const handleAddToCart = (seatId: string, price: number) => {
+  const handleAddToCart = (
+    seatId: string,
+    price: number,
+    ticketType: string,
+    seatRow: number,
+    seatNumber: number
+  ) => {
     setCart((prevCart) => ({
-      seats: [...prevCart.seats, seatId],
+      seats: [
+        ...prevCart.seats,
+        { seatId, ticketType, seatRow, seatNumber, seatPrice: price },
+      ],
       total: prevCart.total + price,
     }));
   };
 
   const handleRemoveFromCart = (seatId: string, price: number) => {
     setCart((prevCart) => ({
-      seats: prevCart.seats.filter((id) => id !== seatId),
+      seats: prevCart.seats.filter((seat) => seat.seatId !== seatId),
       total: prevCart.total - price,
     }));
   };
@@ -56,7 +74,8 @@ function App() {
       </main>
 
       {/* bottom cart affix (wrapper) */}
-      <CartSummary cart={cart} />
+      <CartSummary cart={cart} onRemoveFromCart={handleRemoveFromCart} />
+
     </div>
   );
 }
