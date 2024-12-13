@@ -5,30 +5,63 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover.tsx";
 import { cn } from "@/lib/utils.ts";
-import React from "react";
+import React, { useState } from "react";
 
 interface SeatProps extends React.HTMLAttributes<HTMLElement> {
   seatRow?: number;
   seatNumber?: number;
   ticketType?: string;
+  isInCart?: boolean;
+  onAddToCart?: () => void;
+  onRemoveFromCart?: () => void;
 }
 
-export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
-  ({ seatNumber, ticketType, seatRow, className, ...props }, ref) => {
-    const isInCart = false;
+const getSeatStyle = (
+  ticketType: string | undefined,
+  isInCart: boolean | undefined,
+  isPopoverOpen: boolean
+) => {
+  const styleMap: { [key: string]: string } = {
+    "VIP ticket-inCart": "bg-yellow-400 hover:bg-yellow-500", // Жёлтый для VIP в корзине
+    "Regular ticket-inCart": "bg-yellow-400 hover:bg-yellow-500", // Жёлтый для обычного в корзине
+    "VIP ticket-popoverOpen": "bg-green-600 hover:bg-green-600",
+    "Regular ticket-popoverOpen": "bg-blue-600 hover:bg-blue-600",
+    "VIP ticket-default": "bg-green-400 hover:bg-green-600",
+    "Regular ticket-default": "bg-blue-400 hover:bg-blue-600",
+    "default-default": "bg-pink-100", // Стиль для остальных билетов
+  };
 
-    const seatStyle =
-      ticketType === "VIP ticket"
-        ? "bg-green-400 hover:bg-green-600" // Для VIP - зеленый
-        : ticketType === "Regular ticket"
-        ? "bg-blue-400 hover:bg-blue-600" // Для Regular - голубой
-        : "bg-pink-100";
+  if (isInCart) {
+    return styleMap[`${ticketType}-inCart`] || styleMap["default-default"];
+  } else if (isPopoverOpen) {
+    return styleMap[`${ticketType}-popoverOpen`] || styleMap["default-default"];
+  }
+  return styleMap[`${ticketType}-default`] || styleMap["default-default"];
+};
+
+export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
+  (
+    {
+      seatNumber,
+      ticketType,
+      seatRow,
+      className,
+      isInCart,
+      onAddToCart,
+      onRemoveFromCart,
+      ...props
+    },
+    ref
+  ) => {
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const seatStyle = getSeatStyle(ticketType, isInCart, isPopoverOpen);
 
     const isDisabled =
       ticketType !== "VIP ticket" && ticketType !== "Regular ticket";
 
     return (
-      <Popover>
+      <Popover onOpenChange={(open) => setIsPopoverOpen(open)}>
         <PopoverTrigger className={isDisabled ? "pointer-events-none" : ""}>
           <div
             className={cn(
@@ -49,18 +82,22 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
 
             {/* Seat Details */}
             <p className="text-sm text-gray-600">
-              <span className="font-medium">Row:</span> {seatRow}{" "}
-              <span className="font-medium">Seat:</span> {seatNumber}
+              <span className="font-medium">Row: {seatRow} </span>
+              <span className="font-medium">Seat: {seatNumber}</span>
             </p>
           </div>
 
           <footer className="flex flex-col">
             {isInCart ? (
-              <Button disabled variant="destructive" size="sm">
+              <Button
+                onClick={onRemoveFromCart}
+                variant="destructive"
+                size="sm"
+              >
                 Remove from cart
               </Button>
             ) : (
-              <Button disabled variant="default" size="sm">
+              <Button onClick={onAddToCart} variant="default" size="sm">
                 Add to cart
               </Button>
             )}

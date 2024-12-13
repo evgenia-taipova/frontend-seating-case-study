@@ -26,12 +26,17 @@ interface EventTicketsResponse {
 
 interface SeatingMapProps {
   eventId: string | null;
+  onAddToCart: (seatId: string, price: number) => void;
+  onRemoveFromCart: (seatId: string, price: number) => void;
+  cart: { seats: string[]; total: number };
 }
 
-function SeatingMap({ eventId }: SeatingMapProps) {
+function SeatingMap({ eventId, onAddToCart, onRemoveFromCart, cart }: SeatingMapProps) {
   const [seatingData, setSeatingData] = useState<EventTicketsResponse | null>(
     null
   );
+
+  
 
   useEffect(() => {
     if (!eventId) return;
@@ -81,7 +86,8 @@ function SeatingMap({ eventId }: SeatingMapProps) {
                 : null;
 
               if (seat) {
-                // Занятое место
+                const isInCart = cart.seats.includes(seat.seatId);
+            
                 return (
                   <Seat
                     key={seat.seatId}
@@ -89,6 +95,9 @@ function SeatingMap({ eventId }: SeatingMapProps) {
                     seatRow={row.seatRow}
                     className="flex-shrink-0"
                     ticketType={ticketType?.name}
+                    isInCart={isInCart}
+                    onAddToCart={() => onAddToCart(seat.seatId, ticketType?.price || 0)}
+                    onRemoveFromCart={() => onRemoveFromCart(seat.seatId, ticketType?.price || 0)}
                   />
                 );
               } else {
