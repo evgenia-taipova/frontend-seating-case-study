@@ -11,7 +11,7 @@ interface CartSummaryProps {
 }
 
 function CartSummary({ eventId }: CartSummaryProps) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { cart, removeFromCart } = useCart();
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -27,12 +27,16 @@ function CartSummary({ eventId }: CartSummaryProps) {
       <div className="max-w-screen-lg p-6 flex justify-between items-center gap-4 grow">
         {/* Total in cart */}
         <div className="flex flex-col">
-          <span>{t('Total for')} {cart.seats.length} {t('tickets')}</span>
-          <span className="text-2xl font-semibold">{cart.total} CZK</span>
+          <span>
+            {t("Total for")} {cart.seats.length} {t("tickets")}
+          </span>
+          <span className="md:text-2xl sm:text-sm font-semibold">
+            {cart.total} CZK
+          </span>
         </div>
 
         {/* Container for buttons (View Cart and Checkout) */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 flex-col md:flex-row md:gap-3">
           <CartPopover
             sortedSeats={sortedSeats}
             removeFromCart={removeFromCart}
@@ -42,9 +46,9 @@ function CartSummary({ eventId }: CartSummaryProps) {
           <Button
             disabled={!cart.seats.length}
             variant="default"
-            onClick={() => setModalOpen(true)} // Открыть модальное окно
+            onClick={() => setModalOpen(true)}
           >
-            {t('Checkout now')}
+            {t("Checkout now")}
           </Button>
         </div>
 

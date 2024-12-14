@@ -17,9 +17,10 @@ interface EventData {
 
 interface EventInfoProps {
   onEventIdChange: (eventId: string) => void;
+  className?: string;
 }
 
-function EventInfo({ onEventIdChange }: EventInfoProps) {
+function EventInfo({ onEventIdChange, className }: EventInfoProps) {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
   // State to store event data
@@ -96,7 +97,9 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
     new Date(event.dateTo).toDateString();
 
   return (
-    <aside className="w-full max-w-sm bg-white rounded-md shadow-sm p-4 flex flex-col gap-4">
+    <aside
+      className={`w-full max-w-sm bg-white rounded-md shadow-sm p-4 flex flex-col gap-4 ${className}`}
+    >
       {/* Event header image with dynamic size based on the image */}
       <div
         className="bg-zinc-100 rounded-md mb-4 overflow-hidden"

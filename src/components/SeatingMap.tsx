@@ -6,9 +6,10 @@ import { EventTicketsResponse } from "@/types/types";
 
 interface SeatingMapProps {
   eventId: string | null;
+  className?: string;
 }
 
-function SeatingMap({ eventId }: SeatingMapProps) {
+function SeatingMap({ eventId, className }: SeatingMapProps) {
   const { cart, addToCart, removeFromCart } = useCart();
   const [seatingData, setSeatingData] = useState<EventTicketsResponse | null>(
     null
@@ -56,14 +57,14 @@ function SeatingMap({ eventId }: SeatingMapProps) {
   );
 
   return (
-    <div className="bg-white rounded-md grow p-3 self-stretch shadow-sm">
+    <div className={`bg-white rounded-md grow p-3 self-stretch shadow-sm ${className}`}>
       <Legend />
       {seatingData.seatRows.map((row) => (
         <div key={row.seatRow} className="flex items-center mb-2">
           <div className="flex-shrink-0 w-12 text-center font-medium text-gray-600">
             {row.seatRow}
           </div>
-          <div className="flex justify-center space-x-2 grow">
+          <div className="flex justify-center grow flex-wrap gap-1">
             {Array.from({ length: maxSeatsInRow }, (_, index) => {
               const place = index + 1;
               const seat = row.seats.find((seat) => seat.place === place);

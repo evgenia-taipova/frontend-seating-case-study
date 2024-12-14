@@ -1,22 +1,9 @@
 import { Button } from "@/components/ui/button.tsx";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar.tsx";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.tsx";
+
 import { useTranslation } from "react-i18next";
 import logo from "../public/logo.png";
 
-function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
+function Header() {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lang: string) => {
@@ -34,12 +21,12 @@ function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           <img src={logo} alt="logo" className="rounded-md size-12" />
         </div>
         {/* app/author title/name placeholder */}
-        <div className="rounded-md h-8 w-[200px]  flex items-center justify-cente text-zinc-900 text-lg font-semibold ">
+        <div className="rounded-md h-8 w-[200px] items-center justify-cente text-zinc-900 text-lg font-semibold hidden sm:block">
           NFCtron Keynote 2025
         </div>
         {/* user menu */}
         <div className="max-w-[250px] w-full flex justify-end">
-          {isLoggedIn ? (
+          {/* {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost">
@@ -72,7 +59,7 @@ function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
             <Button disabled variant="secondary">
               Login or register
             </Button>
-          )}
+          )} */}
 
           <Button
             onClick={() =>

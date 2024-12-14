@@ -8,7 +8,6 @@ import { useState } from "react";
 
 function App() {
   const [eventId, setEventId] = useState<string | null>(null);
-  const isLoggedIn = false;
 
   const handleEventIdChange = (id: string) => {
     setEventId(id);
@@ -19,16 +18,16 @@ function App() {
   return (
     <div className="flex flex-col grow">
       {/* Header */}
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
 
       {/* Main Body */}
       <main className="grow flex flex-col justify-center">
-        <div className="max-w-screen-lg m-auto p-4 flex items-start grow gap-3 w-full">
-          {/* Seating Map */}
-          <SeatingMap eventId={eventId} />
-
+        <div className="max-w-screen-lg m-auto p-4 flex flex-col md:flex-row items-start grow gap-3 w-full">
+          
           {/* Event Info */}
-          <EventInfo onEventIdChange={handleEventIdChange} />
+          <EventInfo onEventIdChange={handleEventIdChange} className="md:order-2"/>
+          {/* Seating Map */}
+          <SeatingMap eventId={eventId} className="md:order-1"/>
         </div>
       </main>
 
