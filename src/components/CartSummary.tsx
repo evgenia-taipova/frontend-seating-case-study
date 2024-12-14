@@ -3,43 +3,30 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover.tsx"; // Import the popover components
-// import { cn } from "@/lib/utils";
-
+} from "@/components/ui/popover.tsx";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { useCart } from "@/context/CartContext";
 
-interface CartSummaryProps {
-  cart: {
-    seats: {
-      seatId: string;
-      ticketType: string;
-      seatRow: number;
-      seatNumber: number;
-      seatPrice: number;
-    }[];
-    total: number;
-  };
-  onRemoveFromCart: (seatId: string, price: number) => void;
-}
+function CartSummary() {
+  const { cart, removeFromCart } = useCart();
 
-function CartSummary({ cart, onRemoveFromCart }: CartSummaryProps) {
   const sortedSeats = cart.seats.sort((a, b) => {
     if (a.seatRow === b.seatRow) {
       return a.seatNumber - b.seatNumber; // Сортировка по месту в ряду
     }
     return a.seatRow - b.seatRow; // Сортировка по ряду
   });
+
   return (
     <nav className="sticky bottom-0 left-0 right-0 bg-white border-t border-zinc-200 flex justify-center">
-      {/* inner content */}
       <div className="max-w-screen-lg p-6 flex justify-between items-center gap-4 grow">
-        {/* total in cart state */}
+        {/* Total in cart */}
         <div className="flex flex-col">
           <span>Total for {cart.seats.length} tickets</span>
           <span className="text-2xl font-semibold">{cart.total} CZK</span>
         </div>
-        {/* Popover to show cart details */}
-        {/* Popover to show cart details */}
+
+        {/* Popover for cart details */}
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="secondary">View Cart</Button>
@@ -73,7 +60,7 @@ function CartSummary({ cart, onRemoveFromCart }: CartSummaryProps) {
                         </span>
                         <button
                           onClick={() =>
-                            onRemoveFromCart(ticket.seatId, ticket.seatPrice)
+                            removeFromCart(ticket.seatId, ticket.seatPrice)
                           }
                           className="text-red-500 hover:text-red-700 transition-colors"
                         >
@@ -88,7 +75,7 @@ function CartSummary({ cart, onRemoveFromCart }: CartSummaryProps) {
           </PopoverContent>
         </Popover>
 
-        {/* checkout button */}
+        {/* Checkout Button */}
         <Button disabled={!cart.seats.length} variant="default">
           Checkout now
         </Button>

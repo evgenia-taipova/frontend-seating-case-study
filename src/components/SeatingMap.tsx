@@ -1,6 +1,7 @@
-import { Seat } from "@/components/Seat.tsx";
 import { useState, useEffect } from "react";
+import { Seat } from "@/components/Seat.tsx";
 import Legend from "./Legend";
+import { useCart } from "@/context/CartContext";
 
 interface TicketType {
   id: string;
@@ -26,32 +27,10 @@ interface EventTicketsResponse {
 
 interface SeatingMapProps {
   eventId: string | null;
-  onAddToCart: (
-    seatId: string,
-    price: number,
-    ticketType: string,
-    seatRow: number,
-    seatNumber: number
-  ) => void;
-  onRemoveFromCart: (seatId: string, price: number) => void;
-  cart: {
-    seats: {
-      seatId: string;
-      ticketType: string;
-      seatRow: number;
-      seatNumber: number;
-      seatPrice: number;
-    }[];
-    total: number;
-  };
 }
 
-function SeatingMap({
-  eventId,
-  onAddToCart,
-  onRemoveFromCart,
-  cart,
-}: SeatingMapProps) {
+function SeatingMap({ eventId }: SeatingMapProps) {
+  const { cart, addToCart, removeFromCart } = useCart();
   const [seatingData, setSeatingData] = useState<EventTicketsResponse | null>(
     null
   );
@@ -72,7 +51,6 @@ function SeatingMap({
 
   if (!seatingData) return <div>Loading seating...</div>;
 
-  // Определяем максимальное количество мест в ряду
   const maxSeatsInRow = Math.max(
     ...seatingData.seatRows.map((row) =>
       row.seats.length > 0
@@ -86,14 +64,10 @@ function SeatingMap({
       <Legend />
       {seatingData.seatRows.map((row) => (
         <div key={row.seatRow} className="flex items-center mb-2">
-          {/* Номер ряда слева */}
           <div className="flex-shrink-0 w-12 text-center font-medium text-gray-600">
             {row.seatRow}
           </div>
-
-          {/* Генерируем полный ряд с учетом отсутствующих мест */}
           <div className="flex justify-center space-x-2 grow">
-            {/* Генерируем полный ряд с учетом отсутствующих мест */}
             {Array.from({ length: maxSeatsInRow }, (_, index) => {
               const place = index + 1;
               const seat = row.seats.find((seat) => seat.place === place);
@@ -117,7 +91,7 @@ function SeatingMap({
                     ticketType={ticketType?.name}
                     isInCart={isInCart}
                     onAddToCart={() =>
-                      onAddToCart(
+                      addToCart(
                         seat.seatId,
                         ticketType?.price || 0,
                         ticketType?.name || "",
@@ -126,12 +100,11 @@ function SeatingMap({
                       )
                     }
                     onRemoveFromCart={() =>
-                      onRemoveFromCart(seat.seatId, ticketType?.price || 0)
+                      removeFromCart(seat.seatId, ticketType?.price || 0)
                     }
                   />
                 );
               } else {
-                // Пропущенное место
                 return (
                   <Seat
                     key={`missing-${place}`}
