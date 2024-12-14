@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/popover.tsx";
 import { cn } from "@/lib/utils.ts";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next"; 
 
 interface SeatProps extends React.HTMLAttributes<HTMLElement> {
   seatRow?: number;
@@ -58,6 +59,8 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
     },
     ref
   ) => {
+    const { t } = useTranslation();
+    
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     const seatStyle = getSeatStyle(ticketType, isInCart, isPopoverOpen);
@@ -83,20 +86,20 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
         <PopoverContent>
           <div className="text-sm font-medium text-gray-700 space-y-2 mb-4">
             {/* Ticket Type */}
-            <p className="text-xl font-semibold text-gray-900">{ticketType}</p>
+            <p className="text-xl font-semibold text-gray-900">{t(ticketType)}</p>
 
             {/* Seat Details */}
             <div className="space-y-1">
               <p className="text-sm text-gray-600">
-                <span className="font-medium">Row: </span>
+                <span className="font-medium">{t("Row")}: </span>
                 {seatRow}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-medium">Seat: </span>
+                <span className="font-medium">{t("Seat")}: </span>
                 {seatNumber}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-medium">Price: </span>
+                <span className="font-medium">{t("Price")}: </span>
                 {price} CZK
               </p>
             </div>
@@ -110,7 +113,7 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
                 size="sm"
                 className="w-full py-2"
               >
-                Remove from cart
+                {t("Remove_from_cart")}
               </Button>
             ) : (
               <Button
@@ -119,7 +122,7 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
                 size="sm"
                 className="w-full py-2"
               >
-                Add to cart
+                {t("Add_to_cart")}
               </Button>
             )}
           </footer>

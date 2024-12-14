@@ -1,5 +1,5 @@
-// AddToGoogleCalendar.tsx
 import { Button } from "@/components/ui/button.tsx";
+import { useTranslation } from "react-i18next";
 
 // Create Google Calendar Link
 const createGoogleCalendarLink = (event: { namePub: string; description: string; place: string; dateFrom: string; dateTo: string }) => {
@@ -21,11 +21,13 @@ const createGoogleCalendarLink = (event: { namePub: string; description: string;
 
 // Component for the "Add to Google Calendar" button
 const AddToGoogleCalendar = ({ event }: { event: { namePub: string; description: string; place: string; dateFrom: string; dateTo: string } }) => {
+  const { t } = useTranslation();
+
   const googleCalendarLink = createGoogleCalendarLink(event);
 
   return (
     <Button variant="secondary" onClick={() => window.open(googleCalendarLink, "_blank")}>
-      Add to Google Calendar
+      {t('Add_to_Google_Calendar')}
     </Button>
   );
 };

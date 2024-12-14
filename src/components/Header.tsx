@@ -13,8 +13,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
+import { useTranslation } from "react-i18next";
 
 function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
+
+  const currentLanguage = i18n.language;
+
   return (
     <nav className="sticky top-0 left-0 right-0 bg-white border-b border-zinc-200 flex justify-center">
       {/* inner content */}
@@ -61,6 +70,15 @@ function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
               Login or register
             </Button>
           )}
+
+          <Button
+            onClick={() =>
+              changeLanguage(currentLanguage === "en" ? "cz" : "en")
+            }
+            className="rounded-full p-3"
+          >
+            {currentLanguage === "en" ? "CZ" : "EN"}
+          </Button>
         </div>
       </div>
     </nav>

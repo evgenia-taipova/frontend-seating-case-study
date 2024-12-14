@@ -5,6 +5,7 @@ import EventInfo from "./components/EventInfo";
 import CartSummary from "./components/Footer/CartSummary";
 import { useState } from "react";
 
+
 function App() {
   const [eventId, setEventId] = useState<string | null>(null);
   const isLoggedIn = false;
@@ -12,6 +13,8 @@ function App() {
   const handleEventIdChange = (id: string) => {
     setEventId(id);
   };
+
+ 
 
   return (
     <div className="flex flex-col grow">

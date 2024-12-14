@@ -5,11 +5,13 @@ import CheckoutModal from "./CheckoutModal";
 import { useState } from "react";
 import CartPopover from "./CartPopover";
 
+import { useTranslation } from "react-i18next";
 interface CartSummaryProps {
   eventId: string | null;
 }
 
 function CartSummary({ eventId }: CartSummaryProps) {
+  const {t} = useTranslation();
   const { cart, removeFromCart } = useCart();
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -25,7 +27,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
       <div className="max-w-screen-lg p-6 flex justify-between items-center gap-4 grow">
         {/* Total in cart */}
         <div className="flex flex-col">
-          <span>Total for {cart.seats.length} tickets</span>
+          <span>{t('Total for')} {cart.seats.length} {t('tickets')}</span>
           <span className="text-2xl font-semibold">{cart.total} CZK</span>
         </div>
 
@@ -42,7 +44,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
             variant="default"
             onClick={() => setModalOpen(true)} // Открыть модальное окно
           >
-            Checkout now
+            {t('Checkout now')}
           </Button>
         </div>
 

@@ -7,6 +7,7 @@ import {
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { Button } from "../ui/button";
 import { Seat } from "@/types/types";
+import { useTranslation } from "react-i18next";
 
 interface CartPopoverProps {
   sortedSeats: Seat[]; // замените any на точный тип ваших билетов
@@ -14,18 +15,19 @@ interface CartPopoverProps {
 }
 
 const CartPopover = ({ sortedSeats, removeFromCart }: CartPopoverProps) => {
+  const { t } = useTranslation();
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="secondary">View Cart</Button>
+        <Button variant="secondary">{t("View Cart")}</Button>
       </PopoverTrigger>
       <PopoverContent className="w-[400px] p-6 bg-white rounded-lg shadow-lg max-h-[400px] overflow-y-auto">
         <div>
           <h3 className="text-2xl font-semibold mb-4 text-gray-800">
-            Your Cart
+            {t("Your Cart")}
           </h3>
           {sortedSeats.length === 0 ? (
-            <p className="text-gray-600">No tickets in your cart.</p>
+            <p className="text-gray-600">{t("No tickets in your cart.")}</p>
           ) : (
             <ul>
               {sortedSeats.map((ticket, index) => (
@@ -34,10 +36,12 @@ const CartPopover = ({ sortedSeats, removeFromCart }: CartPopoverProps) => {
                   className="mb-4 flex justify-between items-center p-3 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <div className="flex flex-col">
-                    <p className="font-medium text-lg">{ticket.ticketType}</p>
+                    <p className="font-medium text-lg">
+                      {t(ticket.ticketType)}
+                    </p>
                     <p className="text-sm text-gray-600">
-                      Row: <strong>{ticket.seatRow}</strong> | Seat:{" "}
-                      <strong>{ticket.seatNumber}</strong>
+                      {t("Row")}: <strong>{ticket.seatRow}</strong> |{" "}
+                      {t("Seat")}: <strong>{ticket.seatNumber}</strong>
                     </p>
                   </div>
                   <div className="flex items-center space-x-3">

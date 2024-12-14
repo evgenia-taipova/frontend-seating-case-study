@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button.tsx";
 import { CheckIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 interface OrderResultProps {
   isOrderComplete: boolean | null;
@@ -13,6 +14,7 @@ const OrderResult: React.FC<OrderResultProps> = ({
   orderMessage,
   onClose,
 }) => {
+  const { t } = useTranslation();
   if (isOrderComplete === null) return null;
 
   return (
@@ -30,7 +32,7 @@ const OrderResult: React.FC<OrderResultProps> = ({
       )}
 
       <Button onClick={onClose} className="mt-6">
-        Close
+        {t("Close")}
       </Button>
     </div>
   );

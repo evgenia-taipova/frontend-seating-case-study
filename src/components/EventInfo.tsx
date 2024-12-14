@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import AddToGoogleCalendar from "./AddToGoogleCalendar";
 
@@ -19,6 +20,8 @@ interface EventInfoProps {
 }
 
 function EventInfo({ onEventIdChange }: EventInfoProps) {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
   // State to store event data
   const [event, setEvent] = useState<EventData | null>(null);
   // State to toggle the description visibility
@@ -55,10 +58,9 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
 
   // If event data is not loaded yet
   if (!event) {
-    return <div>Loading...</div>;
+    return <div>{t("loading")}</div>;
   }
 
-  // Function to format date in the format "1. října, sobota, 2024, od 12:00 do 15:00"
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
@@ -69,7 +71,10 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
       minute: "2-digit",
     };
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-EN", options);
+    return date.toLocaleString(
+      currentLanguage === "en" ? "en-EN" : "cs-CZ",
+      options
+    );
   };
 
   // Function to format time without the date for the end time
@@ -79,7 +84,10 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
       minute: "2-digit",
     };
     const date = new Date(dateString);
-    return date.toLocaleTimeString("en-EN", options);
+    return date.toLocaleTimeString(
+      currentLanguage === "en" ? "en-EN" : "cs-CZ",
+      options
+    );
   };
 
   // Check if both dates (start and end) are the same day (e.g., if they happen on the same day)
@@ -119,7 +127,7 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
           onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
           className="self-start text-sm text-blue-500 cursor-pointer hover:text-blue-700"
         >
-          {isDescriptionExpanded ? "Zobrazit méně" : "Zobrazit více"}
+          {isDescriptionExpanded ? t("show_less") : t("show_more")}
         </span>
       </div>
 
