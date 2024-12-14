@@ -2,28 +2,7 @@ import { useState, useEffect } from "react";
 import { Seat } from "@/components/Seat.tsx";
 import Legend from "./Legend";
 import { useCart } from "@/context/CartContext";
-
-interface TicketType {
-  id: string;
-  name: string;
-  price: number;
-}
-
-interface SeatData {
-  seatId: string;
-  place: number;
-  ticketTypeId: string;
-}
-
-interface SeatRow {
-  seatRow: number;
-  seats: SeatData[];
-}
-
-interface EventTicketsResponse {
-  ticketTypes: TicketType[];
-  seatRows: SeatRow[];
-}
+import { EventTicketsResponse } from "@/types/types";
 
 interface SeatingMapProps {
   eventId: string | null;
@@ -34,22 +13,39 @@ function SeatingMap({ eventId }: SeatingMapProps) {
   const [seatingData, setSeatingData] = useState<EventTicketsResponse | null>(
     null
   );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!eventId) return;
 
     const fetchSeatingData = async () => {
-      const response = await fetch(
-        `https://nfctron-frontend-seating-case-study-2024.vercel.app/event-tickets?eventId=${eventId}`
-      );
-      const data = await response.json();
-      setSeatingData(data);
+      try {
+        const response = await fetch(
+          `https://nfctron-frontend-seating-case-study-2024.vercel.app/event-tickets?eventId=${eventId}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch seating data");
+        }
+        const data: EventTicketsResponse = await response.json();
+        setSeatingData(data);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message); // Access the error message
+        } else {
+          setError("An unknown error occurred"); // Fallback for unknown errors
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchSeatingData();
   }, [eventId]);
 
-  if (!seatingData) return <div>Loading seating...</div>;
+  if (loading) return <div>Loading seating...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!seatingData) return <div>No seating data available</div>;
 
   const maxSeatsInRow = Math.max(
     ...seatingData.seatRows.map((row) =>
@@ -87,16 +83,26 @@ function SeatingMap({ eventId }: SeatingMapProps) {
                     key={seat.seatId}
                     seatNumber={seat.place}
                     seatRow={row.seatRow}
+                    price={ticketType?.price || 0}
                     className="flex-shrink-0"
-                    ticketType={ticketType?.name}
+                    ticketType={
+                      ticketType?.name === "VIP ticket" ||
+                      ticketType?.name === "Regular ticket"
+                        ? ticketType?.name
+                        : "default"
+                    }
                     isInCart={isInCart}
                     onAddToCart={() =>
                       addToCart(
                         seat.seatId,
                         ticketType?.price || 0,
-                        ticketType?.name || "",
+                        ticketType?.name === "VIP ticket" ||
+                          ticketType?.name === "Regular ticket"
+                          ? ticketType?.name
+                          : "default",
                         row.seatRow,
-                        seat.place
+                        seat.place,
+                        seat.ticketTypeId
                       )
                     }
                     onRemoveFromCart={() =>

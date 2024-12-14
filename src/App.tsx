@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./components/Header";
 import SeatingMap from "./components/SeatingMap";
 import EventInfo from "./components/EventInfo";
-import CartSummary from "./components/CartSummary";
+import CartSummary from "./components/Footer/CartSummary";
 import { useState } from "react";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
       </main>
 
       {/* Cart Summary */}
-      <CartSummary />
+      <CartSummary eventId={eventId} />
     </div>
   );
 }

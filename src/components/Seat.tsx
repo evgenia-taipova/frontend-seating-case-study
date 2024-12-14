@@ -11,6 +11,7 @@ interface SeatProps extends React.HTMLAttributes<HTMLElement> {
   seatRow?: number;
   seatNumber?: number;
   ticketType?: string;
+  price?: number;
   isInCart?: boolean;
   onAddToCart?: () => void;
   onRemoveFromCart?: () => void;
@@ -31,21 +32,25 @@ const getSeatStyle = (
     "default-default": "bg-pink-100", // Стиль для остальных билетов
   };
 
+  const type = ticketType || "default"; // Обработка undefined значения для ticketType
+
   if (isInCart) {
-    return styleMap[`${ticketType}-inCart`] || styleMap["default-default"];
+    return styleMap[`${type}-inCart`] || styleMap["default-default"];
   } else if (isPopoverOpen) {
-    return styleMap[`${ticketType}-popoverOpen`] || styleMap["default-default"];
+    return styleMap[`${type}-popoverOpen`] || styleMap["default-default"];
   }
-  return styleMap[`${ticketType}-default`] || styleMap["default-default"];
+  return styleMap[`${type}-default`] || styleMap["default-default"];
 };
 
 export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
   (
     {
       seatNumber,
-      ticketType,
+      ticketType = "default",
       seatRow,
+      price,
       className,
+
       isInCart,
       onAddToCart,
       onRemoveFromCart,
@@ -76,28 +81,44 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
           </div>
         </PopoverTrigger>
         <PopoverContent>
-          <div className="text-sm font-medium text-gray-700 space-y-1 mb-3">
+          <div className="text-sm font-medium text-gray-700 space-y-2 mb-4">
             {/* Ticket Type */}
-            <p className="text-lg font-semibold text-gray-900">{ticketType}</p>
+            <p className="text-xl font-semibold text-gray-900">{ticketType}</p>
 
             {/* Seat Details */}
-            <p className="text-sm text-gray-600">
-              <span className="font-medium">Row: {seatRow} </span>
-              <span className="font-medium">Seat: {seatNumber}</span>
-            </p>
+            <div className="space-y-1">
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Row: </span>
+                {seatRow}
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Seat: </span>
+                {seatNumber}
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Price: </span>
+                {price} CZK
+              </p>
+            </div>
           </div>
 
-          <footer className="flex flex-col">
+          <footer className="flex flex-col gap-2 mt-4">
             {isInCart ? (
               <Button
                 onClick={onRemoveFromCart}
                 variant="destructive"
                 size="sm"
+                className="w-full py-2"
               >
                 Remove from cart
               </Button>
             ) : (
-              <Button onClick={onAddToCart} variant="default" size="sm">
+              <Button
+                onClick={onAddToCart}
+                variant="default"
+                size="sm"
+                className="w-full py-2"
+              >
                 Add to cart
               </Button>
             )}

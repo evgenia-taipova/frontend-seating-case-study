@@ -1,26 +1,15 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-
-interface Seat {
-  seatId: string;
-  ticketType: string;
-  seatRow: number;
-  seatNumber: number;
-  seatPrice: number;
-}
-
-interface Cart {
-  seats: Seat[];
-  total: number;
-}
+import { TicketTypeEnum,  Cart } from "@/types/types";
 
 interface CartContextValue {
   cart: Cart;
   addToCart: (
     seatId: string,
     price: number,
-    ticketType: string,
+    ticketType: TicketTypeEnum,
     seatRow: number,
-    seatNumber: number
+    seatNumber: number,
+    ticketTypeId: string
   ) => void;
   removeFromCart: (seatId: string, price: number) => void;
 }
@@ -33,14 +22,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (
     seatId: string,
     price: number,
-    ticketType: string,
+    ticketType: TicketTypeEnum,
     seatRow: number,
-    seatNumber: number
+    seatNumber: number,
+    ticketTypeId: string
   ) => {
     setCart((prevCart) => ({
       seats: [
         ...prevCart.seats,
-        { seatId, ticketType, seatRow, seatNumber, seatPrice: price },
+        { seatId, ticketType, seatRow, seatNumber, seatPrice: price, ticketTypeId },
       ],
       total: prevCart.total + price,
     }));
@@ -60,7 +50,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useCart = () => {
+export const useCart = (): CartContextValue => {
   const context = useContext(CartContext);
   if (!context) {
     throw new Error("useCart must be used within a CartProvider");
