@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button.tsx";
 import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import AddToGoogleCalendar from "./AddToGoogleCalendar";
 
 // Define the structure of the event data
 interface EventData {
@@ -142,9 +142,7 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
       </div>
 
       {/* Add to calendar button */}
-      <Button variant="secondary" disabled>
-        Add to Calendar
-      </Button>
+      <AddToGoogleCalendar event={event} />
     </aside>
   );
 }
