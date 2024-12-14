@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.tsx";
 import { useTranslation } from "react-i18next";
+import logo from "../public/logo.png";
 
 function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   const { i18n } = useTranslation();
@@ -30,10 +31,12 @@ function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
       <div className="max-w-screen-lg p-4 grow flex items-center justify-between gap-3">
         {/* application/author image/logo placeholder */}
         <div className="max-w-[250px] w-full flex">
-          <div className="bg-zinc-100 rounded-md size-12" />
+          <img src={logo} alt="logo" className="rounded-md size-12" />
         </div>
         {/* app/author title/name placeholder */}
-        <div className="bg-zinc-100 rounded-md h-8 w-[200px]" />
+        <div className="rounded-md h-8 w-[200px]  flex items-center justify-cente text-zinc-900 text-lg font-semibold ">
+          NFCtron Keynote 2025
+        </div>
         {/* user menu */}
         <div className="max-w-[250px] w-full flex justify-end">
           {isLoggedIn ? (
