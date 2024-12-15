@@ -70,13 +70,13 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
       setLoginError(null); // Clear any previous errors
     } catch (err) {
       console.error(err);
-      setLoginError(t('Login failed. Please check your credentials.'));
+      setLoginError(t("login_failed"));
     }
   };
 
   const handleOrder = async () => {
     if (!userDetails) {
-      setOrderMessage(t('You must be logged in to place an order.'));
+      setOrderMessage(t("must_be_logged_in"));
       setIsOrderComplete(false);
       return;
     }
@@ -104,15 +104,15 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || t('Failed to create order'));
+        throw new Error(data.message || t("failed_to_create_order"));
       }
 
-      setOrderMessage(t('Order successful!'));
+      setOrderMessage(t("Order successful!"));
       setIsOrderComplete(true);
     } catch (err) {
       console.error(err);
       console.error(err);
-      setOrderMessage(t('Failed to create order'));
+      setOrderMessage(t("failed_to_create_order"));
       setIsOrderComplete(false);
     }
   };
@@ -146,14 +146,14 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
       if (!response.ok) {
         console.error("Error details:", data);
-        throw new Error(data.message || t('Failed to create order'));
+        throw new Error(data.message || t("failed_to_create_order"));
       }
 
-      setOrderMessage(t('Order successful!'));
+      setOrderMessage(t("Order successful!"));
       setIsOrderComplete(true);
     } catch (err) {
       console.error("Error occurred:", err);
-      setOrderMessage(t('Failed to create order'));
+      setOrderMessage(t("failed_to_create_order"));
       setIsOrderComplete(false);
     }
   };
@@ -171,7 +171,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
           } rounded-lg shadow-lg p-6`}
         >
           <DialogTitle className="text-xl font-bold text-gray-800 mb-4">
-          {t('Checkout')}
+            {t("checkout")}
           </DialogTitle>
 
           {isOrderComplete === null && (
@@ -181,13 +181,15 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   <div className="flex items-center space-x-4 mb-4">
                     <UserIcon className="mx-1 h-8 w-8 stroke-yellow-400" />
                     <h2 className="text-2xl font-bold text-gray-800">
-                    {t('Hi')}, {userDetails?.firstName}!
+                      {t("hi")}, {userDetails?.firstName}!
                     </h2>
                   </div>
                   <p className="text-gray-600 text-center mb-6">
-                  {t('You are logged in. Please proceed to confirm your tickets.')}
+                    {t(
+                      "logged_in_message"
+                    )}
                   </p>
-                  <Button onClick={handleOrder}>{t('Buy Tickets Now')}</Button>
+                  <Button onClick={handleOrder}>{t("buy_tickets_now")}</Button>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4">

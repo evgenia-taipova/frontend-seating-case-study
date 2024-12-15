@@ -28,7 +28,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
         {/* Total in cart */}
         <div className="flex flex-col">
           <span>
-            {t("Total for")} {cart.seats.length} {t("tickets")}
+            {t("total_for")} {cart.seats.length} {t("tickets")}
           </span>
           <span className="md:text-2xl sm:text-sm font-semibold">
             {cart.total} CZK
@@ -48,7 +48,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
             variant="default"
             onClick={() => setModalOpen(true)}
           >
-            {t("Checkout now")}
+            {t("checkout_now")}
           </Button>
         </div>
 

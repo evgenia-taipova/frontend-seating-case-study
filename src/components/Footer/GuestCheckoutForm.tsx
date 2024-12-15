@@ -29,12 +29,12 @@ const GuestCheckoutForm = ({ onSubmit }: GuestCheckoutFormProps) => {
   return (
     <div>
       <h2 className="text-lg font-medium text-gray-700 mb-2">
-        {t("Guest Checkout")}
+        {t("guest_checkout")}
       </h2>
       <form onSubmit={handleFormSubmit}>
         <div className="mb-4">
           <label className="block text-sm text-gray-600 mb-1">
-            {t("First Name")}
+            {t("first_name")}
           </label>
           <input
             type="text"
@@ -46,7 +46,7 @@ const GuestCheckoutForm = ({ onSubmit }: GuestCheckoutFormProps) => {
         </div>
         <div className="mb-4">
           <label className="block text-sm text-gray-600 mb-1">
-            {t("Last Name")}
+            {t("last_name")}
           </label>
           <input
             type="text"
@@ -58,7 +58,7 @@ const GuestCheckoutForm = ({ onSubmit }: GuestCheckoutFormProps) => {
         </div>
         <div className="mb-4">
           <label className="block text-sm text-gray-600 mb-1">
-            {t("Email")}
+            {t("email")}
           </label>
           <input
             type="email"
@@ -69,7 +69,7 @@ const GuestCheckoutForm = ({ onSubmit }: GuestCheckoutFormProps) => {
           />
         </div>
         <Button type="submit" variant="default">
-          {t("Buy Now")}
+          {t("buy_now")}
         </Button>
       </form>
     </div>

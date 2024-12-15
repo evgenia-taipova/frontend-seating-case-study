@@ -27,7 +27,7 @@ const AddToGoogleCalendar = ({ event }: { event: { namePub: string; description:
 
   return (
     <Button variant="secondary" onClick={() => window.open(googleCalendarLink, "_blank")}>
-      {t('Add_to_Google_Calendar')}
+      {t('add_to_google_calendar')}
     </Button>
   );
 };

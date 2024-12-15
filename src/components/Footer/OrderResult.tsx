@@ -32,7 +32,7 @@ const OrderResult: React.FC<OrderResultProps> = ({
       )}
 
       <Button onClick={onClose} className="mt-6">
-        {t("Close")}
+        {t("close")}
       </Button>
     </div>
   );

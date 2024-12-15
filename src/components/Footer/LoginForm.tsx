@@ -20,10 +20,10 @@ const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
 
   return (
     <div>
-      <h2 className="text-lg font-medium text-gray-700 mb-2">{t("Login")}</h2>
+      <h2 className="text-lg font-medium text-gray-700 mb-2">{t("login")}</h2>
       <form onSubmit={handleFormSubmit}>
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">{t("Email")}</label>
+          <label className="block text-sm text-gray-600 mb-1">{t("email")}</label>
           <input
             type="email"
             className="w-full border border-gray-300 rounded-md p-2"
@@ -33,7 +33,7 @@ const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">{t("Password")}</label>
+          <label className="block text-sm text-gray-600 mb-1">{t("password")}</label>
           <input
             type="password"
             className="w-full border border-gray-300 rounded-md p-2"
@@ -44,7 +44,7 @@ const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
         </div>
         {loginError && <p className="text-red-500 mb-4">{loginError}</p>}
         <Button type="submit" variant="default">
-        {t("Login")}
+        {t("login")}
         </Button>
       </form>
     </div>

@@ -91,15 +91,15 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
             {/* Seat Details */}
             <div className="space-y-1">
               <p className="text-sm text-gray-600">
-                <span className="font-medium">{t("Row")}: </span>
+                <span className="font-medium">{t("row")}: </span>
                 {seatRow}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-medium">{t("Seat")}: </span>
+                <span className="font-medium">{t("seat")}: </span>
                 {seatNumber}
               </p>
               <p className="text-sm text-gray-600">
-                <span className="font-medium">{t("Price")}: </span>
+                <span className="font-medium">{t("price")}: </span>
                 {price} CZK
               </p>
             </div>
@@ -113,7 +113,7 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
                 size="sm"
                 className="w-full py-2"
               >
-                {t("Remove_from_cart")}
+                {t("remove_from_cart")}
               </Button>
             ) : (
               <Button
@@ -122,7 +122,7 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
                 size="sm"
                 className="w-full py-2"
               >
-                {t("Add_to_cart")}
+                {t("add_to_cart")}
               </Button>
             )}
           </footer>

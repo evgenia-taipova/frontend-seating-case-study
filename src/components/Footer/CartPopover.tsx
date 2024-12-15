@@ -19,15 +19,15 @@ const CartPopover = ({ sortedSeats, removeFromCart }: CartPopoverProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="secondary">{t("View Cart")}</Button>
+        <Button variant="secondary">{t("view_cart")}</Button>
       </PopoverTrigger>
       <PopoverContent className="w-[400px] p-6 bg-white rounded-lg shadow-lg max-h-[400px] overflow-y-auto">
         <div>
           <h3 className="text-2xl font-semibold mb-4 text-gray-800">
-            {t("Your Cart")}
+            {t("your_cart")}
           </h3>
           {sortedSeats.length === 0 ? (
-            <p className="text-gray-600">{t("No tickets in your cart.")}</p>
+            <p className="text-gray-600">{t("no_tickets_in_cart")}</p>
           ) : (
             <ul>
               {sortedSeats.map((ticket, index) => (
@@ -40,8 +40,8 @@ const CartPopover = ({ sortedSeats, removeFromCart }: CartPopoverProps) => {
                       {t(ticket.ticketType)}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {t("Row")}: <strong>{ticket.seatRow}</strong> |{" "}
-                      {t("Seat")}: <strong>{ticket.seatNumber}</strong>
+                      {t("row")}: <strong>{ticket.seatRow}</strong> |{" "}
+                      {t("seat")}: <strong>{ticket.seatNumber}</strong>
                     </p>
                   </div>
                   <div className="flex items-center space-x-3">
