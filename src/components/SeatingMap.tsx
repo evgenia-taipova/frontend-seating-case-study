@@ -18,6 +18,7 @@ function SeatingMap({ eventId }: SeatingMapProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // useEffect hook to fetch seating data when the eventId changes
   useEffect(() => {
     if (!eventId) return;
 
@@ -45,16 +46,22 @@ function SeatingMap({ eventId }: SeatingMapProps) {
     fetchSeatingData();
   }, [eventId]);
 
+  // If data is still loading, show the loading skeleton
   if (loading) {
     return <LoadingSkeletonMap />;
   }
+
+  // If seating data is not available, display a message
   if (!seatingData || !seatingData.seatRows || !seatingData.ticketTypes) {
     return <div>No seating data available</div>;
   }
+
+  // If there was an error during the fetch, display the error
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+  // Find the maximum number of seats in any row
   const maxSeatsInRow = Math.max(
     ...seatingData.seatRows.map((row) =>
       row.seats.length > 0

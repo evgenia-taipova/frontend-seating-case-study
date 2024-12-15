@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover.tsx";
 import { cn } from "@/lib/utils.ts";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 import { TicketTypeEnum } from "@/types/types";
 
 interface SeatProps extends React.HTMLAttributes<HTMLElement> {
@@ -19,22 +19,23 @@ interface SeatProps extends React.HTMLAttributes<HTMLElement> {
   onRemoveFromCart?: () => void;
 }
 
+// Function to determine the style of a seat based on its type and state
 const getSeatStyle = (
   ticketType: string | undefined,
   isInCart: boolean | undefined,
   isPopoverOpen: boolean
 ) => {
   const styleMap: { [key: string]: string } = {
-    "VIP ticket-inCart": "bg-yellow-400 hover:bg-yellow-500", // Жёлтый для VIP в корзине
-    "Regular ticket-inCart": "bg-yellow-400 hover:bg-yellow-500", // Жёлтый для обычного в корзине
-    "VIP ticket-popoverOpen": "bg-green-600 hover:bg-green-600",
-    "Regular ticket-popoverOpen": "bg-blue-600 hover:bg-blue-600",
-    "VIP ticket-default": "bg-green-400 hover:bg-green-600",
-    "Regular ticket-default": "bg-blue-400 hover:bg-blue-600",
-    "default-default": "bg-pink-100", // Стиль для остальных билетов
+    "VIP ticket-inCart": "bg-yellow-400 hover:bg-yellow-500", // Yellow for VIP in cart
+    "Regular ticket-inCart": "bg-yellow-400 hover:bg-yellow-500", // Yellow for regular in cart
+    "VIP ticket-popoverOpen": "bg-green-600 hover:bg-green-600", // Dark green for VIP with open popover
+    "Regular ticket-popoverOpen": "bg-blue-600 hover:bg-blue-600", // Dark blue for regular with open popover
+    "VIP ticket-default": "bg-green-400 hover:bg-green-600", // Default green for VIP
+    "Regular ticket-default": "bg-blue-400 hover:bg-blue-600", // Default blue for regular
+    "default-default": "bg-pink-100", // Default pink for other types
   };
 
-  const type = ticketType || "default"; // Обработка undefined значения для ticketType
+  const type = ticketType || "default";
 
   if (isInCart) {
     return styleMap[`${type}-inCart`] || styleMap["default-default"];
@@ -61,11 +62,12 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
     ref
   ) => {
     const { t } = useTranslation();
-    
+
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+    // Determine the seat style based on state and type
     const seatStyle = getSeatStyle(ticketType, isInCart, isPopoverOpen);
-
+    // Disable seat interaction if it's not a valid ticket type
     const isDisabled =
       ticketType !== "VIP ticket" && ticketType !== "Regular ticket";
 
@@ -85,9 +87,12 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
           </div>
         </PopoverTrigger>
         <PopoverContent>
+          {/* Seat details displayed inside the popover */}
           <div className="text-sm font-medium text-gray-700 space-y-2 mb-4">
             {/* Ticket Type */}
-            <p className="text-xl font-semibold text-gray-900">{t(ticketType)}</p>
+            <p className="text-xl font-semibold text-gray-900">
+              {t(ticketType)}
+            </p>
 
             {/* Seat Details */}
             <div className="space-y-1">
@@ -106,6 +111,7 @@ export const Seat = React.forwardRef<HTMLDivElement, SeatProps>(
             </div>
           </div>
 
+          {/* Action buttons for the seat */}
           <footer className="flex flex-col gap-2 mt-4">
             {isInCart ? (
               <Button

@@ -22,10 +22,12 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const { t } = useTranslation();
   const { cart } = useCart();
 
+  // Mapping selected seats to tickets array with required fields
   const tickets = cart.seats.map((seat) => ({
-    ticketTypeId: seat.ticketTypeId, // Correctly access the ticketTypeId from each seat
-    seatId: seat.seatId, // Correctly access the seatId from each seat
+    ticketTypeId: seat.ticketTypeId,
+    seatId: seat.seatId,
   }));
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -60,7 +62,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
       if (!response.ok) {
         throw new Error("Invalid credentials");
       }
-
+      // Set the user details and update login state
       setIsLoggedIn(true);
       setUserDetails({
         email: data.user.email,
@@ -74,6 +76,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
     }
   };
 
+  // Handle order submission
   const handleOrder = async () => {
     if (!userDetails) {
       setOrderMessage(t("must_be_logged_in"));
@@ -117,6 +120,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
     }
   };
 
+  // Handle guest checkout process
   const handleGuestCheckout = async (guestDetails: {
     firstName: string;
     lastName: string;
@@ -173,7 +177,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <DialogTitle className="text-xl font-bold text-gray-800 mb-4">
             {t("checkout")}
           </DialogTitle>
-
+          {/* Display login / guest checkout form or order result */}
           {isOrderComplete === null && (
             <div>
               {isLoggedIn ? (
@@ -185,9 +189,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     </h2>
                   </div>
                   <p className="text-gray-600 text-center mb-6">
-                    {t(
-                      "logged_in_message"
-                    )}
+                    {t("logged_in_message")}
                   </p>
                   <Button onClick={handleOrder}>{t("buy_tickets_now")}</Button>
                 </div>

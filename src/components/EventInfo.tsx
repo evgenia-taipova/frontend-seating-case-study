@@ -4,7 +4,6 @@ import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import AddToGoogleCalendar from "./AddToGoogleCalendar";
 import LoadingSkeletonEvent from "./LoadingSkeleton/LoadingSkeletonEvent";
 
-// Define the structure of the event data
 interface EventData {
   eventId: string;
   namePub: string;
@@ -23,8 +22,10 @@ interface EventInfoProps {
 function EventInfo({ onEventIdChange }: EventInfoProps) {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
+
   // State to store event data
   const [event, setEvent] = useState<EventData | null>(null);
+
   // State to toggle the description visibility
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
@@ -55,13 +56,14 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
     }
 
     fetchEventData();
-  }, []);
+  }, [onEventIdChange]);
 
   // If event data is not loaded yet
   if (!event) {
     return <LoadingSkeletonEvent />;
   }
 
+  // Function to format date string
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
@@ -123,7 +125,7 @@ function EventInfo({ onEventIdChange }: EventInfoProps) {
             ? event.description
             : `${event.description.slice(0, 200)}...`}
         </p>
-        {/* Button to toggle the description visibility */}
+        {/* Button to toggle the description */}
         <span
           onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
           className="self-start text-sm text-blue-500 cursor-pointer hover:text-blue-700"

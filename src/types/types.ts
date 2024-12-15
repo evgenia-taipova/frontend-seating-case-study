@@ -1,5 +1,3 @@
-// types.ts
-
 export interface TicketType {
     id: string;
     name: string;

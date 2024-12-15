@@ -8,7 +8,7 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,8 +22,11 @@ const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
     <div>
       <h2 className="text-lg font-medium text-gray-700 mb-2">{t("login")}</h2>
       <form onSubmit={handleFormSubmit}>
+        {/* Email input field */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">{t("email")}</label>
+          <label className="block text-sm text-gray-600 mb-1">
+            {t("email")}
+          </label>
           <input
             type="email"
             className="w-full border border-gray-300 rounded-md p-2"
@@ -32,8 +35,11 @@ const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
             required
           />
         </div>
+        {/* Password input field */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">{t("password")}</label>
+          <label className="block text-sm text-gray-600 mb-1">
+            {t("password")}
+          </label>
           <input
             type="password"
             className="w-full border border-gray-300 rounded-md p-2"
@@ -42,9 +48,11 @@ const LoginForm = ({ onSubmit, loginError }: LoginFormProps) => {
             required
           />
         </div>
+        {/* Display error message if there is a login error */}
         {loginError && <p className="text-red-500 mb-4">{loginError}</p>}
+        {/* Submit button */}
         <Button type="submit" variant="default">
-        {t("login")}
+          {t("login")}
         </Button>
       </form>
     </div>

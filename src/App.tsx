@@ -7,13 +7,13 @@ import { useState } from "react";
 
 
 function App() {
+  // State to store the event ID, which is passed between components
   const [eventId, setEventId] = useState<string | null>(null);
 
+  // Callback function to update the event ID when it changes in a child component
   const handleEventIdChange = (id: string) => {
     setEventId(id);
   };
-
- 
 
   return (
     <div className="flex flex-col grow">

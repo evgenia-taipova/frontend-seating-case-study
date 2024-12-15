@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button.tsx";
-
 import { useCart } from "@/context/CartContext";
-import CheckoutModal from "./CheckoutModal";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import CheckoutModal from "./CheckoutModal";
 import CartPopover from "./CartPopover";
 
-import { useTranslation } from "react-i18next";
 interface CartSummaryProps {
   eventId: string | null;
 }
@@ -15,6 +14,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
   const { cart, removeFromCart } = useCart();
   const [isModalOpen, setModalOpen] = useState(false);
 
+  // Sort the seats in the cart by row and seat number
   const sortedSeats = [...cart.seats].sort((a, b) => {
     if (a.seatRow === b.seatRow) {
       return a.seatNumber - b.seatNumber;
@@ -25,7 +25,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
   return (
     <nav className="sticky bottom-0 left-0 right-0 bg-white border-t border-zinc-200 flex justify-center">
       <div className="max-w-screen-lg p-6 flex justify-between items-center gap-4 grow">
-        {/* Total in cart */}
+        {/* Display total price for the tickets in the cart */}
         <div className="flex flex-col">
           <span>
             {t("total_for")} {cart.seats.length} {t("tickets")}
@@ -52,7 +52,7 @@ function CartSummary({ eventId }: CartSummaryProps) {
           </Button>
         </div>
 
-        {/* Модальное окно */}
+        {/* Checkout modal */}
         {isModalOpen && (
           <CheckoutModal
             isOpen={isModalOpen}

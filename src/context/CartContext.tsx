@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { TicketTypeEnum,  Cart } from "@/types/types";
+import { createContext, useContext, useState, ReactNode } from "react";
+import { TicketTypeEnum, Cart } from "@/types/types";
 
 interface CartContextValue {
   cart: Cart;
@@ -19,6 +19,7 @@ const CartContext = createContext<CartContextValue | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<Cart>({ seats: [], total: 0 });
 
+  // Function to add a seat to the cart
   const addToCart = (
     seatId: string,
     price: number,
@@ -30,12 +31,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCart((prevCart) => ({
       seats: [
         ...prevCart.seats,
-        { seatId, ticketType, seatRow, seatNumber, seatPrice: price, ticketTypeId },
+        {
+          seatId,
+          ticketType,
+          seatRow,
+          seatNumber,
+          seatPrice: price,
+          ticketTypeId,
+        },
       ],
       total: prevCart.total + price,
     }));
   };
 
+  // Function to remove a seat from the cart
   const removeFromCart = (seatId: string, price: number) => {
     setCart((prevCart) => ({
       seats: prevCart.seats.filter((seat) => seat.seatId !== seatId),
@@ -43,6 +52,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }));
   };
 
+  // Provide the cart state and the functions to modify it to the child components
   return (
     <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
       {children}
@@ -50,6 +60,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Custom hook to access the CartContext value
 export const useCart = (): CartContextValue => {
   const context = useContext(CartContext);
   if (!context) {
