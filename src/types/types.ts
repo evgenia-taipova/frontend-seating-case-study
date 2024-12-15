@@ -23,7 +23,6 @@ export interface TicketType {
   }
   
 
-  // types.ts
 export type TicketTypeEnum = "VIP ticket" | "Regular ticket" | "default";
 
 export interface Seat {

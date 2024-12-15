@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import AddToGoogleCalendar from "./AddToGoogleCalendar";
+import LoadingSkeletonEvent from "./LoadingSkeleton/LoadingSkeletonEvent";
 
 // Define the structure of the event data
 interface EventData {
@@ -17,10 +18,9 @@ interface EventData {
 
 interface EventInfoProps {
   onEventIdChange: (eventId: string) => void;
-  className?: string;
 }
 
-function EventInfo({ onEventIdChange, className }: EventInfoProps) {
+function EventInfo({ onEventIdChange }: EventInfoProps) {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
   // State to store event data
@@ -59,7 +59,7 @@ function EventInfo({ onEventIdChange, className }: EventInfoProps) {
 
   // If event data is not loaded yet
   if (!event) {
-    return <div>{t("loading")}</div>;
+    return <LoadingSkeletonEvent />;
   }
 
   const formatDate = (dateString: string) => {
@@ -97,9 +97,7 @@ function EventInfo({ onEventIdChange, className }: EventInfoProps) {
     new Date(event.dateTo).toDateString();
 
   return (
-    <aside
-      className={`w-full max-w-sm bg-white rounded-md shadow-sm p-4 flex flex-col gap-4 ${className}`}
-    >
+    <aside className="w-full max-w-sm bg-white rounded-md shadow-sm p-4 flex flex-col gap-4">
       {/* Event header image with dynamic size based on the image */}
       <div
         className="bg-zinc-100 rounded-md mb-4 overflow-hidden"

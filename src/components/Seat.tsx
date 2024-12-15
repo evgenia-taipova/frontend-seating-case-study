@@ -7,11 +7,12 @@ import {
 import { cn } from "@/lib/utils.ts";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next"; 
+import { TicketTypeEnum } from "@/types/types";
 
 interface SeatProps extends React.HTMLAttributes<HTMLElement> {
   seatRow?: number;
   seatNumber?: number;
-  ticketType?: string;
+  ticketType?: TicketTypeEnum;
   price?: number;
   isInCart?: boolean;
   onAddToCart?: () => void;

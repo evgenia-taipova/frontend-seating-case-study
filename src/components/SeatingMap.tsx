@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import { Seat } from "@/components/Seat.tsx";
 import Legend from "./Legend";
 import { useCart } from "@/context/CartContext";
-import { EventTicketsResponse } from "@/types/types";
+import { EventTicketsResponse, TicketTypeEnum } from "@/types/types";
+import LoadingSkeletonMap from "./LoadingSkeleton/LoadingSkeletonMap";
 
 interface SeatingMapProps {
   eventId: string | null;
-  className?: string;
 }
 
-function SeatingMap({ eventId, className }: SeatingMapProps) {
+function SeatingMap({ eventId }: SeatingMapProps) {
   const { cart, addToCart, removeFromCart } = useCart();
   const [seatingData, setSeatingData] = useState<EventTicketsResponse | null>(
     null
   );
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,9 +45,15 @@ function SeatingMap({ eventId, className }: SeatingMapProps) {
     fetchSeatingData();
   }, [eventId]);
 
-  if (loading) return <div>Loading seating...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!seatingData) return <div>No seating data available</div>;
+  if (loading) {
+    return <LoadingSkeletonMap />;
+  }
+  if (!seatingData || !seatingData.seatRows || !seatingData.ticketTypes) {
+    return <div>No seating data available</div>;
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   const maxSeatsInRow = Math.max(
     ...seatingData.seatRows.map((row) =>
@@ -57,14 +64,14 @@ function SeatingMap({ eventId, className }: SeatingMapProps) {
   );
 
   return (
-    <div className={`bg-white rounded-md grow p-3 self-stretch shadow-sm ${className}`}>
+    <div className="bg-white rounded-md grow p-3 self-stretch shadow-sm">
       <Legend />
       {seatingData.seatRows.map((row) => (
         <div key={row.seatRow} className="flex items-center mb-2">
           <div className="flex-shrink-0 w-12 text-center font-medium text-gray-600">
             {row.seatRow}
           </div>
-          <div className="flex justify-center grow flex-wrap gap-1">
+          <div className="flex justify-center grow flex-wrap gap-[2px]">
             {Array.from({ length: maxSeatsInRow }, (_, index) => {
               const place = index + 1;
               const seat = row.seats.find((seat) => seat.place === place);
@@ -89,7 +96,7 @@ function SeatingMap({ eventId, className }: SeatingMapProps) {
                     ticketType={
                       ticketType?.name === "VIP ticket" ||
                       ticketType?.name === "Regular ticket"
-                        ? ticketType?.name
+                        ? (ticketType?.name as TicketTypeEnum) // Explicitly cast to TicketTypeEnum
                         : "default"
                     }
                     isInCart={isInCart}
